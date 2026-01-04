@@ -1,7 +1,31 @@
-public class CreateOrderCommandHandler
+public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, OrderDto>
 {
-	public static async Task<Order> Handle(CreateOrderCommand command,
-			AppDbContext context)
+	private readonly AppDbContext _context;
+
+	public CreateOrderCommandHandler(AppDbContext context)
+	{
+		_context = context;
+	}
+
+	// public static async Task<Order> Handle(CreateOrderCommand command,
+	// 		AppDbContext context)
+	// {
+	// var order = new Order
+	// {
+	// 	FirstName = command.FirstName,
+	// 	LastName = command.LastName,
+	// 	Status = command.Status,
+	// 	CreatedAt = DateTime.Now,
+	// 	TotalCost = command.TotalCost
+	// };
+
+	// await context.Orders.AddAsync(order);
+	// await context.SaveChangesAsync();
+	//
+	// 	return order;
+	// }
+
+	public async Task<OrderDto> HandleAsync(CreateOrderCommand command)
 	{
 		var order = new Order
 		{
@@ -12,9 +36,16 @@ public class CreateOrderCommandHandler
 			TotalCost = command.TotalCost
 		};
 
-		await context.Orders.AddAsync(order);
-		await context.SaveChangesAsync();
+		await _context.Orders.AddAsync(order);
+		await _context.SaveChangesAsync();
 
-		return order;
+		return new OrderDto(
+			order.Id,
+			order.FirstName,
+			order.LastName,
+			order.Status,
+			order.CreatedAt,
+			order.TotalCost
+		);
 	}
 }
