@@ -7,6 +7,14 @@ builder.Services.AddDbContext<AppDbContext>(
 			opt => opt.UseSqlite(builder
 			.Configuration.GetConnectionString("BaseConnection")));
 
+builder.Services.AddDbContext<WriteDbContext>(
+			opt => opt.UseSqlite(builder
+			.Configuration.GetConnectionString("WriteDbConnection")));
+
+builder.Services.AddDbContext<ReadDbContext>(
+			opt => opt.UseSqlite(builder
+			.Configuration.GetConnectionString("ReadDbConnection")));
+
 builder.Services.AddScoped<ICommandHandler<CreateOrderCommand, OrderDto>,
 	CreateOrderCommandHandler>();
 
@@ -19,7 +27,10 @@ builder.Services.AddScoped<IValidator<CreateOrderCommand>,
 builder.Services.AddScoped<IQueryHandler<GetOrderSummariesQuery, List<OrderSummaryDto>>,
 	GetOrderSummariesQueryHandler>();
 
-builder.Services.AddSingleton<IEventPublisher, ConsoleEventPublisher>();
+builder.Services.AddSingleton<IEventPublisher, InProcessEventPublisher>();
+
+builder.Services.AddScoped<IEventHandler<OrderCreatedEvent>,
+	OrderCreatedProjectionHandler>();
 
 var app = builder.Build();
 
