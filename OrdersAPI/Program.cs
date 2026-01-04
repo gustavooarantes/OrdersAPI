@@ -1,18 +1,27 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(
-		opt => opt.UseSqlite(builder
+			opt => opt.UseSqlite(builder
 			.Configuration.GetConnectionString("BaseConnection")));
+
 builder.Services.AddScoped<ICommandHandler<CreateOrderCommand, OrderDto>,
 	CreateOrderCommandHandler>();
+
 builder.Services.AddScoped<IQueryHandler<GetOrderByIdQuery, OrderDto>,
 	GetOrderByIdQueryHandler>();
 
+builder.Services.AddScoped<IValidator<CreateOrderCommand>,
+	CreateOrderCommandValidator>();
+
+builder.Services.AddScoped<IQueryHandler<GetOrderSummariesQuery, List<OrderSummaryDto>>,
+	GetOrderSummariesQueryHandler>();
+
 var app = builder.Build();
 
-app.MapPost("api/orders",
+app.MapPost("/api/orders",
 		async (ICommandHandler<CreateOrderCommand, OrderDto> handler,
 			CreateOrderCommand command) =>
 {
@@ -21,17 +30,29 @@ app.MapPost("api/orders",
 	// var createdOrder = await CreateOrderCommandHandler
 	// 	.Handle(command, context);
 
-	var createdOrder = await handler.HandleAsync(command);
-
-	if (createdOrder == null)
+	try
 	{
-		return Results.BadRequest("Failed to create order");
-	}
+		var createdOrder = await handler.HandleAsync(command);
 
-	return Results.Created($"/api/orders/{createdOrder.Id}", createdOrder);
+		if (createdOrder == null)
+		{
+			return Results.BadRequest("Failed to create order");
+		}
+
+		return Results.Created($"/api/orders/{createdOrder.Id}", createdOrder);
+	}
+	catch (ValidationException ex)
+	{
+		var errors = ex.Errors.Select(e => new
+		{
+			e.PropertyName,
+			e.ErrorMessage
+		});
+		return Results.BadRequest(errors);
+	}
 });
 
-app.MapGet("api/orders/{id}", async (
+app.MapGet("/api/orders/{id}", async (
 			IQueryHandler<GetOrderByIdQuery, OrderDto> handler, int id) =>
 {
 	// var order = await context
@@ -46,5 +67,12 @@ app.MapGet("api/orders/{id}", async (
 
 	return Results.Ok(order);
 });
+
+app.MapGet("/api/orders", async (
+			IQueryHandler<GetOrderSummariesQuery, List<OrderSummaryDto>> handler) =>
+	{
+		var summaries = await handler.HandleAsync(new GetOrderSummariesQuery());
+		return Results.Ok(summaries);
+	});
 
 app.Run();

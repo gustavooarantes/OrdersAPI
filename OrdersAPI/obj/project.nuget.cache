@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "RdFEw+mjGQnDie11AjDA6zlLv7PYX/9aFbA/HS/I1xwdzbY5cxV6p6Yvmn774CnfegBmrtM3gegWAz0MB4pt2g==",
+  "dgSpecHash": "WAlx2rLHAETm54lMSYXE87dWDcmUT0v/IzeLRBrBdJ3W9tp8tD9bbKw28KMTdvMr9PIVbXbjsNBZatv10xld2Q==",
   "success": true,
   "projectFilePath": "/home/gustavo/Projects/OrdersAPI/OrdersAPI/OrdersAPI.csproj",
   "expectedPackageFiles": [
+    "/home/gustavo/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
     "/home/gustavo/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/gustavo/.nuget/packages/microsoft.data.sqlite.core/7.0.7/microsoft.data.sqlite.core.7.0.7.nupkg.sha512",
     "/home/gustavo/.nuget/packages/microsoft.entityframeworkcore/7.0.7/microsoft.entityframeworkcore.7.0.7.nupkg.sha512",
