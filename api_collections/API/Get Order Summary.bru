@@ -1,0 +1,16 @@
+meta {
+  name: Get Order Summary
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:5160/api/orders
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
