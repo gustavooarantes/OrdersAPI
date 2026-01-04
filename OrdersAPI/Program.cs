@@ -8,22 +8,33 @@ builder.Services.AddDbContext<AppDbContext>(
 
 var app = builder.Build();
 
-app.MapPost("api/orders", async (AppDbContext context, Order order) =>
-		{
-			await context.Orders.AddAsync(order);
-			await context.SaveChangesAsync();
+app.MapPost("api/orders",
+		async (AppDbContext context, CreateOrderCommand command) =>
+{
+	// await context.Orders.AddAsync(order);
+	// await context.SaveChangesAsync();
 
-			return Results.Created($"/api/orders/{order.Id}", order);
-		});
+	var createdOrder = await CreateOrderCommandHandler
+		.Handle(command, context);
+	if (createdOrder == null)
+	{
+		return Results.BadRequest("Failed to create order");
+	}
+
+	return Results.Created($"/api/orders/{createdOrder.Id}", createdOrder);
+});
 
 app.MapGet("api/orders/{id}", async (AppDbContext context, int id) =>
-		{
-			var order = await context
-				.Orders.FirstOrDefaultAsync(o => o.Id == id);
-			if (order == null)
-				return Results.NotFound();
+{
+	// var order = await context
+	// 	.Orders.FirstOrDefaultAsync(o => o.Id == id);
 
-			return Results.Ok(order);
-		});
+	var order = await GetOrderByIdQueryHandler.Handle(
+			new GetOrderByIdQuery(id), context);
+	if (order == null)
+		return Results.NotFound();
+
+	return Results.Ok(order);
+});
 
 app.Run();
