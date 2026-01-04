@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "CQRS_OrdersAPI",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
