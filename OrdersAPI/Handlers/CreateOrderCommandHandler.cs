@@ -4,12 +4,15 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, Ord
 {
 	private readonly AppDbContext _context;
 	private readonly IValidator<CreateOrderCommand> _validator;
+	private readonly IEventPublisher _eventPublisher;
 
 	public CreateOrderCommandHandler(AppDbContext context,
-			IValidator<CreateOrderCommand> validator)
+			IValidator<CreateOrderCommand> validator,
+			IEventPublisher eventPublisher)
 	{
 		_context = context;
 		_validator = validator;
+		_eventPublisher = eventPublisher;
 	}
 
 	// public static async Task<Order> Handle(CreateOrderCommand command,
@@ -49,6 +52,16 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, Ord
 
 		await _context.Orders.AddAsync(order);
 		await _context.SaveChangesAsync();
+
+		var orderCreatedEvent = new OrderCreatedEvent
+		(
+			order.Id,
+			order.FirstName,
+			order.LastName,
+			order.TotalCost
+		);
+
+		await _eventPublisher.PublishAsync(orderCreatedEvent);
 
 		return new OrderDto(
 			order.Id,

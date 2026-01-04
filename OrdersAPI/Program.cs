@@ -19,6 +19,8 @@ builder.Services.AddScoped<IValidator<CreateOrderCommand>,
 builder.Services.AddScoped<IQueryHandler<GetOrderSummariesQuery, List<OrderSummaryDto>>,
 	GetOrderSummariesQueryHandler>();
 
+builder.Services.AddSingleton<IEventPublisher, ConsoleEventPublisher>();
+
 var app = builder.Build();
 
 app.MapPost("/api/orders",
