@@ -63,3 +63,12 @@
 /home/gustavo/Projects/OrdersAPI/OrdersAPI/obj/Debug/net8.0/OrdersAPI.csproj.AssemblyReference.cache
 /home/gustavo/Projects/OrdersAPI/OrdersAPI/obj/Debug/net8.0/OrdersAPI.csproj.CopyComplete
 /home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/FluentValidation.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/MediatR.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/MediatR.Contracts.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/gustavo/Projects/OrdersAPI/OrdersAPI/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
