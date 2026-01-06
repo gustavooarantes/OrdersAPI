@@ -1,4 +1,4 @@
-# Evolving a minimal RESTful API to an event-driven application, using CQRS patter, with Validation and MediatR
+# Evolving a minimal RESTful API to an event-driven application, using CQRS pattern, with Validation and MediatR
 
 ## 1. What is CQRS and Why is it Used?:
 
